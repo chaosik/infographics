@@ -1,0 +1,16 @@
+@import 'mixins';
+
+#overlay {
+  visibility: hidden;
+  opacity: 0;
+  .transition(all 0.5s);
+  position: fixed;
+  background-color: rgba(234, 155, 96, 0.80);
+  width: 100%;
+  height: 100%;
+
+  .dialog-visible & {
+    visibility: visible;
+    opacity: 1;
+  }
+}

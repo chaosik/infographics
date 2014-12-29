@@ -1,0 +1,24 @@
+@import 'variables';
+@import 'mixins';
+
+#workspace-wrapper {
+  .full-screen();
+}
+
+#workspace {
+  .full-screen();
+  margin: auto;
+  transition: right .25s ease-out;
+
+  .sidebar-visible & {
+    transition: right .25s ease-in;
+    right: @sidebar-width;
+  }
+
+  svg& {
+    width: 500px;
+    height: 500px;
+    border: 2px dashed black;
+    background-color: darkorange;
+  }
+}

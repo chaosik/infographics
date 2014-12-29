@@ -1,0 +1,75 @@
+@import '../utils/colors';
+@import 'variables';
+
+body {
+  overflow: hidden;
+  background: @geyser;
+}
+
+#sidebar {
+  position: absolute;
+  right: -@sidebar-width;
+  top: 0;
+  bottom: 0;
+  transition: right .25s ease-out;
+
+  #sidebar-content {
+    opacity: .1;
+    transition: opacity .25s ease-out;
+  }
+
+  .sidebar-visible & {
+    right: 0;
+    transition: right .25s ease-in;
+
+    #sidebar-content {
+      opacity: 1;
+      transition: opacity .25s ease-in;
+    }
+  }
+}
+
+#sidebar-content {
+  position: relative;
+  height: 100%;
+  width: @sidebar-width;
+  border-left: solid 1px @sidebar-text-color;
+  background-color: @sidebar-color;
+  color: @sidebar-text-color;
+  padding: @sidebar-padding;
+}
+
+#sidebar-toggle {
+  top: 60px;
+  position: absolute;
+  left: -100px;
+}
+
+#sidebar-content {
+
+  .tab {
+    padding: @sidebar-padding;
+    border: solid 1px @sidebar-text-color;
+
+    .icon {
+      transition: transform .5s ease;
+    }
+    &.expanded .icon {
+      transform: rotate(90deg);
+    }
+
+    .measure {
+      display: table;
+    }
+
+    .content {
+      transition: height .5s, opacity .5s;
+      opacity: .1;
+      height: 0;
+      overflow: hidden;
+    }
+    &.expanded .content {
+      opacity: 1;
+    }
+  }
+}

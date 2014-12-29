@@ -1,0 +1,15 @@
+@import '../../../bower_components/bootstrap/less/mixins/vendor-prefixes';
+
+.full-screen() {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+
+.no-transition-class() {
+  &.no-transition {
+    .transition(initial);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "ecmascript": 6,
+    "jsx": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "quotes": "single",
+    "strict": false,
+    "no-underscore-dangle": false,
+    "no-multi-str": false,
+    "no-unused-vars": false,
+    "eol-last": false,
+    "no-debugger": false
+  }
+}
