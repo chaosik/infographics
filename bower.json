@@ -1,0 +1,33 @@
+{
+  "name": "infographics",
+  "version": "0.0.1",
+  "authors": [
+    "golbatnio <golbatinio@outlook.com>"
+  ],
+  "main": "app.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "flux",
+    "react",
+    "bootstrap",
+    "d3"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "d3": "~3.4.13",
+    "react": "~0.12.0",
+    "bootstrap": "~3.3.1",
+    "es6-promise": "~2.0.0"
+  }
+}
