@@ -5,11 +5,13 @@ var ViewMixin = require('../mixins/ViewMixin');
 
 var Workspace = React.createClass({
 
-  mixins: [new ViewMixin(ModelStore, function getState() {
+  mixins: [ViewMixin(ModelStore)],
+
+  getStateFromStore: function getStateFromStore() {
     return {
       allModels: ModelStore.getAll()
     };
-  })],
+  },
 
   render: function() {
     var allModels = this.state.allModels;
@@ -22,6 +24,7 @@ var Workspace = React.createClass({
           key={model.id}
           groupId={model.id}
           model={model.model}
+          modelData={model.modelData}
           x={group.x}
           y={group.y}
           rotation={group.rotation}

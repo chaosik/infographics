@@ -1,28 +1,26 @@
 /**
  * @param Store {StoreMixin}
- * @param getState {Function} function for getting state from store
  * @constructor
  */
-function ViewMixin(Store, getState) {
+function ViewMixin(Store) {
 
   return {
-    getInitialState: function() {
-      return getState();
+    getInitialState: function getInitialState() {
+      return this.getStateFromStore();
     },
 
-    componentDidMount: function() {
-      Store.addChangeListener(this._onChange);
+    componentDidMount: function componentDidMount() {
+      Store.addChangeListener(this._onStoreChange);
     },
 
-    componentWillUnmount: function() {
-      Store.removeChangeListener(this._onChange);
+    componentWillUnmount: function componentWillUnmount() {
+      Store.removeChangeListener(this._onStoreChange);
     },
 
-    _onChange: function() {
-      this.setState(getState());
+    _onStoreChange: function _onStoreChange() {
+      this.setState(this.getStateFromStore());
     }
   };
 }
-
 
 module.exports = ViewMixin;

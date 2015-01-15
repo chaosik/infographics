@@ -1,19 +1,26 @@
 var React = require('react-with-addons');
 var SidebarTab = require('./SidebarTab');
-var SidebarTabConstants = require('../../constants/SidebarTabsConstants');
-var mapKeyValues = require('../../utils/mapKeyValues');
+var FileDialog = require('../dialog/FileDialog.react.js');
+var DataSourceDialog = require('../dialog/DataSourceDialog.react');
+var DataSetDialog = require('../dialog/DataSetDialog.react');
+var DialogButton = require('../utils/DialogButton.react.js');
+var ModelDialog = require('../dialog/ModelDialog.react');
+
+
+var PropertiesSidebarTab = require('./sidebar-tabs/PropertiesSidebarTab.react');
+var ModelsSidebarTab = require('./sidebar-tabs/ModelsSidebarTab.react');
+var DataSidebarTab = require('./sidebar-tabs/DataSidebarTab.react');
+var DocumentSidebarTab = require('./sidebar-tabs/DocumentSidebarTab.react');
+
+var tabs = [DocumentSidebarTab, PropertiesSidebarTab, ModelsSidebarTab, DataSidebarTab];
 
 var SidebarContent = React.createClass({
 
-  componentWillMount: function() {
-    this.tabs = mapKeyValues(SidebarTabConstants);
-  },
-
   render: function() {
-    var sidebarTabs = this.tabs.map(function(tab) {
+    var sidebarTabs = tabs.map(function(Tab, index) {
       return (
-        <SidebarTab key={tab.key} title={tab.value.title}>
-          <tab.value />
+        <SidebarTab key={index} title={Tab.title}>
+          <Tab />
         </SidebarTab>
       );
     });
@@ -22,6 +29,10 @@ var SidebarContent = React.createClass({
       <div id="sidebar-content">
         <h1>Sidebar Content</h1>
         {sidebarTabs}
+        <DialogButton dialog={FileDialog}>Upload Files</DialogButton>
+        <DialogButton dialog={DataSourceDialog}>Data sources</DialogButton>
+        <DialogButton dialog={DataSetDialog}>Datasets</DialogButton>
+        <DialogButton dialog={ModelDialog}>Models</DialogButton>
       </div>
     );
   }

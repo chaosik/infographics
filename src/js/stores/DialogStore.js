@@ -1,7 +1,8 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var StoreMixin = require('../mixins/StoreMixin');
-var AppConstants = require('../constants/AppConstants');
+var DialogConstants = require('../constants/DialogConstants');
 var FocusedMode = require('../constants/FocusedModeConstants');
+var DialogComponent = require('../utils/DialogComponent');
 var _ = require('lodash');
 var merge = _.merge;
 
@@ -20,12 +21,11 @@ var _dialogVisibility = false;
 var _dialogRectangle = null;
 
 /**
- * Object containing cached React Component Factories
- * for various types of Dialogs
- * @type {Object<Function>}
+ * Array of opened dialogs stacked
+ * @type {DialogComponent[]}
  * @private
  */
-var _dialogStack = {};
+var _dialogStack = [];
 
 /**
  * String storing name of active dialog type
@@ -36,79 +36,67 @@ var _dialogStack = {};
 var _dialogActive = null;
 
 /**
- * Store for various application data
+ * Store for dialog stacking
  * @mixes StoreMixin
+ * @singleton
  */
-var DialogStore = merge(StoreMixin, {
-
-  getDialogVisibility: function getDialogVisibility() {
-    return _dialogVisibility;
-  },
-
-  getDialogRectangle: function getDialogRectangle() {
-    return _dialogRectangle;
-  },
+var DialogStore = merge({}, StoreMixin, {
 
   getDialogStack: function getDialogStack() {
-    return _dialogActive ? [_dialogStack[_dialogActive]] : [];
+    return _dialogStack;
   },
 
-  CHANGE_VISIBILITY: function CHANGE_VISIBILITY(action) {
-    _dialogVisibility = action.visibility;
+  openDialog: function openDialog(dialog, props) {
+    _dialogStack.push(new DialogComponent(dialog, props));
   },
 
-  OPEN: function OPEN(action) {
-    _dialogRectangle = action.rectangle;
-    if (!_dialogStack.hasOwnProperty(action.dialog.displayName)) {
-      _dialogStack[action.dialog.displayName] = action.dialog;
-    }
-    _dialogActive = action.dialog.displayName;
-    _dialogVisibility = true;
-    _dialogVisibility = action.visibility;
+  closeDialog: function closeDialog() {
+    _dialogStack.length = _dialogStack.length - 1;
   },
 
-  CLEAR_RECTANGLE: function CLEAR_RECTANGLE(action) {
-    _dialogRectangle = null;
-  },
-
-  HIDE: function HIDE(action) {
-    _dialogVisibility = false;
-  },
-
-  dispatcherIndex: AppDispatcher.register(function dispatcher(payload) {
+  dispatcherIndex: AppDispatcher.register(function dispatch(payload) {
     var action = payload.action;
 
-    if (DialogStore.hasOwnProperty(action.actionType)) {
-      DialogStore[action.actionType](action);
+    switch (action.actionType) {
+
+      case DialogConstants.OPEN:
+        DialogStore.openDialog(action.dialog, action.props);
+        break;
+
+      case DialogConstants.CLOSE:
+        DialogStore.closeDialog();
+        break;
+
+      default:
+        return true;
     }
     DialogStore.emitChange();
-
-    switch(action.actionType) {
-    /** @event AppStore#setDialogVisibility */
-      case AppConstants.CHANGE_DIALOG_VISIBILITY:
-        AppStore.emitChange();
-        break;
-
-    /** @event AppStore#openDialog */
-      case AppConstants.OPEN_DIALOG:
-        AppStore.emitChange();
-        break;
-
-    /** @event AppStore#clearDialogRectangle */
-      case AppConstants.CLEAR_DIALOG_RECTANGLE:
-        AppStore.emitChange();
-        break;
-
-    /** @event AppStore#hideDialog */
-      case AppConstants.HIDE_DIALOG:
-        AppStore.emitChange();
-        break;
-
-    }
-
     return true;
   })
 
 });
+
+
+/**************************************************************************************
+ *                                   Actions
+ **************************************************************************************/
+
+DialogStore[DialogConstants.OPEN] = function dialogOpen(action) {
+  _dialogRectangle = action.rectangle;
+  if (!_dialogStack.hasOwnProperty(action.dialog.displayName)) {
+    _dialogStack[action.dialog.displayName] = action.dialog;
+  }
+  _dialogActive = action.dialog.displayName;
+  _dialogVisibility = true;
+  _dialogVisibility = action.visibility;
+};
+
+DialogStore[DialogConstants.CLEAR_RECTANGLE] = function dialogClearRectangle(action) {
+  _dialogRectangle = null;
+};
+
+DialogStore[DialogConstants.HIDE] = function dialogHide(action) {
+  _dialogVisibility = false;
+};
 
 module.exports = DialogStore;

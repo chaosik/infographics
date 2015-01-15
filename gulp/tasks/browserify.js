@@ -10,7 +10,6 @@
 
 var browserify   = require('browserify');
 var watchify     = require('watchify');
-var sourcemap    = require('gulp-extract-sourcemap');
 var path         = require('path');
 var bundleLogger = require('../util/bundleLogger');
 var gulp         = require('gulp');
@@ -67,7 +66,7 @@ gulp.task('browserify', function(callback) {
 
     var reportFinished = function() {
       // Log when bundling completes
-      bundleLogger.end(bundleConfig.outputName)
+      bundleLogger.end(bundleConfig.outputName);
 
       if(bundleQueue) {
         bundleQueue--;

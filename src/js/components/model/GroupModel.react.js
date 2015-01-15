@@ -3,8 +3,9 @@ var d3 = require('d3');
 var Model = require('./Model.react.js');
 var GroupModelActions = require('../../actions/GroupModelActions');
 var GroupModelContours = require('./GroupModelContours.react');
+var ModelComponent = require('./ModelComponent.react');
 var pick = require('lodash').pick;
-
+var ModelActions = require('../../actions/ModelActions');
 
 var GroupModel = React.createClass({
 
@@ -18,13 +19,14 @@ var GroupModel = React.createClass({
     var el = this.getDOMNode();
     var drag = d3.behavior.drag()
       .origin(function (d) {
-        return pick(this.props, ['x', 'y']);
+        var props = this.props.modelProperties;
+        return pick(props, ['x', 'y']);
       }.bind(this))
       .on('dragstart', function(d) {
-        GroupModelActions.focus(this.props.groupId);
+        ModelActions.select(this.props.index);
       }.bind(this))
       .on('drag', function(d) {
-        GroupModelActions.drag(this.props.groupId, {
+        GroupModelActions.drag(this.props.index, {
           x: d3.event.x,
           y: d3.event.y
         });
@@ -41,20 +43,24 @@ var GroupModel = React.createClass({
   },
 
   render: function() {
-    var model = this.props.model;
+    var props = this.props.modelProperties;
     var transform =
-      'translate(' + this.props.x + ',' + this.props.y + ') ' +
-      'rotate(' + this.props.rotation + ' ' +
-        ((model.width / 2) * this.props.scale) + ' ' +
-        ((model.height / 2) * this.props.scale) + ') ' +
-      'scale(' + this.props.scale + ')';
+      'translate(' + props.x + ',' + props.y + ') ' +
+      'rotate(' + props.r + ')'/* ' +
+        ((model.width / 2) * props.sx) + ' ' +
+        ((model.height / 2) * props.sy) + ') '*/ +
+      'scale(' + props.sx + ',' + props.sy + ')';
 
     return (
       <g>
-        <g ref="groupModel" key="groupModel" transform={transform}>
-          <Model model={model} />
+        <g ref="groupModel" transform={transform}>
+          <ModelComponent
+            query={this.props.query}
+            column={this.props.column}
+            template={this.props.template}
+            templateProperties={this.props.templateProperties} />
         </g>
-        <GroupModelContours visible={this.props.focus} node={this.state.groupModelDOM}/>
+        <GroupModelContours index={this.props.index} node={this.state.groupModelDOM}/>
       </g>
     );
   }

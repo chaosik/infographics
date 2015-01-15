@@ -10,6 +10,9 @@ var Icon = React.createClass({
   },
 
   render: function() {
+    if (!IconConstants[this.props.type]) {
+      console.warn('IconConstant "' + this.props.type + '" isn\'t defined.')
+    }
     var className = 'glyphicon glyphicon-' + IconConstants[this.props.type] +
       (this.props.selector ? ' ' + this.props.selector : '');
 

@@ -21,11 +21,13 @@ var _modes = map(FocusedModeConstants, function(value, key) {
 
 var FocusedMode = React.createClass({
 
-  mixins: [new ViewMixin(AppStore, function getState() {
+  mixins: [ViewMixin(AppStore)],
+
+  getStateFromStore: function getStateFromStore() {
     return {
       focusedMode: AppStore.getFocusedMode()
     };
-  })],
+  },
 
   render: function() {
     var buttons = _modes.map(function(mode) {

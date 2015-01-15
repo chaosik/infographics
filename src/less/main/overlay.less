@@ -1,6 +1,7 @@
 @import 'mixins';
+@import 'variables';
 
-#overlay {
+.overlay {
   visibility: hidden;
   opacity: 0;
   .transition(all 0.5s);
@@ -8,9 +9,10 @@
   background-color: rgba(234, 155, 96, 0.80);
   width: 100%;
   height: 100%;
+  z-index: @dialog-z-index;
 
-  .dialog-visible & {
+//  .dialog-visible & {
     visibility: visible;
     opacity: 1;
-  }
+//  }
 }

@@ -6,11 +6,13 @@ var ViewMixin = require('../../mixins/ViewMixin');
 
 var Sidebar = React.createClass({
 
-  mixins: [new ViewMixin(AppStore, function getState() {
+  mixins: [ViewMixin(AppStore)],
+
+  getStateFromStore: function getStateFromStore() {
     return {
       visible: AppStore.getSidebarVisibility()
     };
-  })],
+  },
 
   render: function() {
     return (

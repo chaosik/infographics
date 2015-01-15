@@ -6,8 +6,10 @@ var PropertyInput = require('../utils/PropertyInput.react.js');
 var FocusedMode = require('../utils/FocusedMode.react');
 var mapKeyValues = require('../../../utils/mapKeyValues');
 var ViewMixin = require('../../../mixins/ViewMixin');
+var ModelPanel = require('../../dialog/ModelDialog/ModelPanel.react');
 
 var _properties = mapKeyValues(GroupModelProperties);
+
 
 
 var PropertiesSidebarTab = React.createClass({
@@ -16,30 +18,47 @@ var PropertiesSidebarTab = React.createClass({
     title: 'properties'
   },
 
-  mixins: [new ViewMixin(ModelStore, function getState() {
+  mixins: [ViewMixin(ModelStore)],
+
+  getStateFromStore: function getStateFromStore() {
     return {
-      model: ModelStore.getFocused()
+      models: ModelStore.getModels(),
+      selectedIndex: ModelStore.getSelectedIndex()
     };
-  })],
+  },
 
 
   render: function() {
-    var group = this.state && this.state.model ? this.state.model.group : {};
-    var propertyInputs = _properties.map(function(property) {
-      return <PropertyInput
-        key={property.key}
-        property={property.value}
-        value={group[property.value]}
-        onChange={this._onPropertyChange}
-      />;
-    }, this);
+    var model = this.state.models[this.state.selectedIndex];
+    if (model) {
+      return (
+        <ModelPanel onChange={this._onChange} modelProperties={model.modelProperties}/>
+      );
+    } else {
+      return (
+        <div>Select a Model First</div>
+      );
+    }
+    //var group = this.state && this.state.model ? this.state.model.group : {};
+    //var propertyInputs = _properties.map(function(property) {
+    //  return <PropertyInput
+    //    key={property.key}
+    //    property={property.value}
+    //    value={group[property.value]}
+    //    onChange={this._onPropertyChange}
+    //  />;
+    //}, this);
+    //
+    //return (
+    //  <div>
+    //    {propertyInputs}
+    //    <FocusedMode />
+    //  </div>
+    //);
+  },
 
-    return (
-      <div>
-        {propertyInputs}
-        <FocusedMode />
-      </div>
-    );
+  _onChange: function (modelProperties) {
+    GroupModelActions.update(this.state.selectedIndex, modelProperties);
   },
 
   /**

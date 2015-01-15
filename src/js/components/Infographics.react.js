@@ -2,37 +2,35 @@ var React = require('react-with-addons');
 var AppStore = require('../stores/AppStore');
 var Workspace = require('./Workspace.react');
 var Sidebar = require('./sidebar/Sidebar.react.js');
-var Dialog = require('./dialog/Dialog.react.js');
-var Overlay = require('./dialog/Overlay.react.js');
+var DialogStack = require('./DialogStack.react.js');
 var ViewMixin = require('../mixins/ViewMixin');
+var DocumentPreview = require('./DocumentPreview.react');
 
 var classSet = React.addons.classSet;
 
 var Infographics = React.createClass({
 
-  mixins: [new ViewMixin(AppStore, function getState() {
+  mixins: [ViewMixin(AppStore)],
+
+  getStateFromStore: function getStateFromStore() {
     return {
-      sidebarVisible: AppStore.getSidebarVisibility(),
-      dialogVisible: AppStore.getDialogVisibility()
+      sidebarVisible: AppStore.getSidebarVisibility()
     };
-  })],
+  },
 
   render: function() {
     var className = classSet({
-      'sidebar-visible': this.state.sidebarVisible,
-      'dialog-visible': this.state.dialogVisible
+      'sidebar-visible': this.state.sidebarVisible
     });
 
     return (
       <div className={className}>
-        <Workspace />
+        <DocumentPreview />
         <Sidebar />
-        <Dialog />
-        <Overlay />
+        <DialogStack />
       </div>
     );
   }
-
 });
 
 module.exports = Infographics;

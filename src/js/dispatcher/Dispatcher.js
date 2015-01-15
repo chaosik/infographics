@@ -22,6 +22,26 @@ Dispatcher.prototype = merge(Dispatcher.prototype, {
   },
 
   /**
+   * Register a Store's callback with automatic
+   * check if actionType method is present and calls
+   * change emission afterwards
+   * @param {StoreMixin} store
+   * @returns {number}
+   */
+  registerStore: function(store) {
+    return this.register(function dispatcher(payload) {
+      var action = payload.action;
+
+      if (store.hasOwnProperty(action.actionType)) {
+        store[action.actionType](action);
+        store.emitChange();
+      }
+
+      return true;
+    });
+  },
+
+  /**
    * dispatch
    * @param  {object} payload The data from the action.
    */

@@ -2,11 +2,11 @@ var PropertiesSidebarTab = require('../components/sidebar/sidebar-tabs/Propertie
 var ModelsSidebarTab = require('../components/sidebar/sidebar-tabs/ModelsSidebarTab.react');
 var DataSidebarTab = require('../components/sidebar/sidebar-tabs/DataSidebarTab.react');
 
+var SidebarTabsConstants = [
 
-var SidebarTabsConstants = {
-  PropertiesSidebarTab: PropertiesSidebarTab,
-  ModelsSidebarTab: ModelsSidebarTab,
-  DataSidebarTab: DataSidebarTab
-};
+  PropertiesSidebarTab,
+  ModelsSidebarTab,
+  DataSidebarTab
+];
 
 module.exports = SidebarTabsConstants;

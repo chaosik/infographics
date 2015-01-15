@@ -10,9 +10,10 @@ var prefix = 'DIALOG_';
  * @enum {string}
  */
 var DialogConstants = mapValues({
-  OPEN: '',
-  CLEAR_RECTANGLE: '',
-  HIDE: ''
+  OPEN: null,
+  CLEAR_RECTANGLE: null,
+  HIDE: null,
+  CLOSE: null
 }, function (val, key) {
   return prefix + key;
 });

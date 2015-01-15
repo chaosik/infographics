@@ -1,10 +1,23 @@
 var React = require('react-with-addons');
+var ModelStore = require('../../stores/ModelStore');
+var ViewMixin = require('../../mixins/ViewMixin');
+
 
 var GroupModelContours = React.createClass({
+
+  mixins: [ViewMixin(ModelStore)],
+
+  getStateFromStore: function () {
+    return {
+      selected: ModelStore.getSelectedIndex()
+    };
+  },
+
   render: function() {
-    var d = 5;
-    var d2 = d * 2;
-    if (this.props.node && this.props.visible) {
+    /* eslint eqeqeq: 0 */
+    if (this.props.node && this.props.index == this.state.selected) {
+      var d = 5;
+      var d2 = d * 2;
       var model = this.props.node.getBoundingClientRect();
       var offsetParent = this.props.node.offsetParent;
       var transform = "translate(" +

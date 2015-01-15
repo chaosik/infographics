@@ -14,14 +14,6 @@
   "browser": {
     "react-with-addons": "./bower_components/react/react-with-addons.js"
   },
-  "__browserify-shim": {
-    "react-with-addons": "./bower_components/react/react-with-addons.js"
-  },
-  "__browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
   "author": "Bartosz Szewczyk",
   "license": "ISC",
   "devDependencies": {
@@ -30,7 +22,6 @@
     "browserify-shim": "^3.8.0",
     "debowerify": "^0.9.1",
     "del": "^0.1.3",
-    "eslint": "^0.10.0-alpha.1",
     "gulp": "^3.8.10",
     "gulp-changed": "^1.0.0",
     "gulp-extract-sourcemap": "^0.1.1",

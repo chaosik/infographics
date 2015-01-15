@@ -6,16 +6,19 @@ module.exports = {
   dest: dest,
   browserSync: {
     //port: 8080,
-    server: {
-      // We're serving the src folder as well
-      // for sass sourcemap linking
-      baseDir: [dest, src]
-    },
+    //server: {
+    // We're serving the src folder as well
+    // for sass sourcemap linking
+    //  baseDir: [dest, src]
+    //},
     files: [
       dest + "/**",
       // Exclude Map files
       "!" + dest + "/**.map"
-    ]
+    ],
+    proxy: {
+      host: "localhost"
+    }
   },
   fonts: {
     src: 'bower_components/bootstrap/fonts/**',

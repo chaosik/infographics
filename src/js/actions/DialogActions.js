@@ -3,36 +3,17 @@ var DialogConstants = require('../constants/DialogConstants');
 
 var DialogActions = {
 
-  /**
-   * @emits DialogStore#OPEN
-   * @see DialogStore#OPEN
-   * @event DialogStore#OPEN
-   * @param {ClientRect} rectangle
-   * @param {ReactComponent} dialog
-   */
-  openDialog: function (rectangle, dialog) {
+  openDialog: function(dialog, props) {
     AppDispatcher.handleViewAction({
       actionType: DialogConstants.OPEN,
-      rectangle: rectangle,
-      dialog: dialog
+      dialog: dialog,
+      props: props
     });
   },
 
-  /**
-   * @fires AppStore#clearDialogRectangle
-   */
-  clearDialogRectangle: function () {
+  closeDialog: function() {
     AppDispatcher.handleViewAction({
-      actionType: DialogConstants.CLEAR_RECTANGLE
-    });
-  },
-
-  /**
-   * @fires AppStore#hideDialog
-   */
-  hideDialog: function () {
-    AppDispatcher.handleViewAction({
-      actionType: DialogConstants.HIDE
+      actionType: DialogConstants.CLOSE
     });
   }
 

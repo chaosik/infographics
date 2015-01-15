@@ -1,8 +1,8 @@
 var React = require('react-with-addons');
 var FileInput = require('../../utils/FileInput.react');
-var DataDialog = require('../../dialog/DataDialog.react');
-var DialogButton = require('../../dialog/DialogButton.react');
-
+var DataDialog = require('../../dialog/FileDialog.react.js');
+var Dialog = require('../../dialog/utils/DialogBase.react.js');
+var DialogButton = require('../../utils/DialogButton.react.js');
 
 var DataSidebarTab = React.createClass({
 
@@ -24,7 +24,6 @@ var DataSidebarTab = React.createClass({
     return (
       <div>
         <DialogButton dialog={DataDialog}>Open Dialog</DialogButton>
-        <FileInput/>
         {queries}
       </div>
     );
